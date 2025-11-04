@@ -5,19 +5,12 @@
 
 import mongoose, { Document, Schema, Types } from "mongoose";
 
-// Order item interface for products in an order
-interface IOrderItem {
-  product: Types.ObjectId;
-  quantity: number;
-  price: number; // Price at time of order
-}
-
 // Order interface extending Mongoose Document
 interface IOrder extends Document {
   _id: Types.ObjectId;
   user: Types.ObjectId;
-  items: IOrderItem[]; // Array of ordered items
-  totalAmount: number;
+  product: Types.ObjectId;
+  quantity: number;
   status: "pending" | "confirmed" | "shipped" | "delivered" | "cancelled";
   shippingAddress: string;
   paymentStatus: "pending" | "paid" | "failed";
@@ -32,52 +25,39 @@ const orderSchema = new Schema<IOrder>(
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: [true, "User is required"],
+      required: [true, "User is required"]
     },
-    items: [
-      {
-        product: {
-          type: Schema.Types.ObjectId,
-          ref: "Product",
-          required: [true, "Product is required"],
-        },
-        quantity: {
-          type: Number,
-          required: [true, "Quantity is required"],
-          min: [1, "Quantity must be at least 1"],
-        },
-        price: {
-          type: Number,
-          required: [true, "Price is required"],
-          min: [0, "Price cannot be negative"],
-        },
-      },
-    ],
-    totalAmount: {
+    product: {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
+      required: [true, "Product is required"]
+    },
+    quantity: {
       type: Number,
-      required: [true, "Total amount is required"],
-      min: [0, "Total amount cannot be negative"],
+      required: [true, "Quantity is required"],
+      min: [1, "Quantity must be at least 1"]
     },
     status: {
       type: String,
       default: "pending",
       enum: ["pending", "confirmed", "shipped", "delivered", "cancelled"],
-      required: true,
+      required: true
     },
     shippingAddress: {
       type: String,
       required: [true, "Shipping address is required"],
-      trim: true,
+      trim: true
     },
     paymentStatus: {
       type: String,
       default: "pending",
       enum: ["pending", "paid", "failed"],
-      required: true,
+      required: true
     },
     deliveryDate: {
-      type: Date,
-    },
+      type: Date
+      // Optional, will be set when order is shipped
+    }
   },
   { timestamps: true } // Automatically add createdAt and updatedAt
 );
@@ -86,6 +66,6 @@ const orderSchema = new Schema<IOrder>(
 orderSchema.index({ user: 1 }); // Index for user-based order queries
 orderSchema.index({ createdAt: -1 }); // Index for date-based sorting (newest first)
 orderSchema.index({ status: 1 }); // Index for status-based queries
-orderSchema.index({ "items.product": 1 }); // Index for product-based queries
+orderSchema.index({ product: 1 }); // Index for product-based queries
 
 export const Order = mongoose.model<IOrder>("Order", orderSchema);
