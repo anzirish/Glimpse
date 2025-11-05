@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
 // JWT payload interface
-interface JWTPayload {
+export interface JWTPayload {
   userId: mongoose.Types.ObjectId;
   role: "user" | "admin";
   email: string;
