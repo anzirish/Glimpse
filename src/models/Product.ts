@@ -51,7 +51,7 @@ const productSchema = new mongoose.Schema<IProduct>(
       maxLength: [2000, "Description cannot exceed 2000 characters"],
     },
     stock: {
-      type: Number, 
+      type: Number,
       required: [true, "Product stock is required"],
       min: [0, "Stock cannot be negative"],
       default: 0,
@@ -63,8 +63,9 @@ const productSchema = new mongoose.Schema<IProduct>(
     },
     reviews: [
       {
-        type: Schema.Types.ObjectId,
+        type: [Schema.Types.ObjectId],
         ref: "Review",
+        default: [],
       },
     ],
   },
