@@ -13,6 +13,7 @@ interface IUser extends Document {
   name: string;
   email: string;
   password: string;
+  resetPasswordToken: string;
   role: "user" | "admin"; // Restrict to specific roles
   address: string;
   createdAt: Date;
@@ -44,6 +45,10 @@ const userSchema = new mongoose.Schema<IUser>(
       required: [true, "Password is required"],
       select: false, // Don't include password in queries by default
       minLength: [6, "Password must be at least 6 characters"],
+    },
+    resetPasswordToken: {
+      type: String,
+      select: false, // Don't include resetPasswordToken in queries by default
     },
     role: {
       type: String,
