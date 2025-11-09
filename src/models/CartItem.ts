@@ -6,7 +6,7 @@
 import mongoose, { Document, Schema, Types } from "mongoose";
 
 // Cart interface extending Mongoose Document
-interface ICart extends Document {
+interface ICartItem extends Document {
   _id: Types.ObjectId;
   user: Types.ObjectId; 
   product: Types.ObjectId;
@@ -16,7 +16,7 @@ interface ICart extends Document {
 }
 
 // Cart schema definition with validation rules
-const cartSchema = new Schema<ICart>(
+const cartItemSchema = new Schema<ICartItem>(
   {
     user: {
       type: Schema.Types.ObjectId,
@@ -39,7 +39,7 @@ const cartSchema = new Schema<ICart>(
 );
 
 // Create indexes for better query performance
-cartSchema.index({ user: 1 }); // Index for user-based cart queries
-cartSchema.index({ user: 1, product: 1 }, { unique: true }); // Prevent duplicate items per user
+cartItemSchema.index({ user: 1 }); // Index for user-based cart queries
+cartItemSchema.index({ user: 1, product: 1 }, { unique: true }); // Prevent duplicate items per user
 
-export const Cart = mongoose.model<ICart>("Cart", cartSchema);
+export const CartItem = mongoose.model<ICartItem>("CartItem", cartItemSchema);
