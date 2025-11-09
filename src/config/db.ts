@@ -23,23 +23,18 @@ const getMongoURI = (): string => {
 };
 
 export const connectDB = async () => {
-  try {
-    // Get environment-specific MongoDB URI
-    const mongoURI = getMongoURI();
+  // Get environment-specific MongoDB URI
+  const mongoURI = getMongoURI();
 
-    if (!mongoURI) {
-      throw new Error(
-        `MongoDB URI not defined for ${process.env.NODE_ENV} environment`
-      );
-    }
-
-    // Connect to MongoDB
-    await mongoose.connect(mongoURI);
-    console.log("MongoDB connected successfully!");
-  } catch (error) {
-    console.error(" MongoDB connection failed:", error);
-    process.exit(1);
+  if (!mongoURI) {
+    throw new Error(
+      `MongoDB URI not defined for ${process.env.NODE_ENV} environment`
+    );
   }
+
+  // Connect to MongoDB
+  await mongoose.connect(mongoURI);
+  console.log("MongoDB connected successfully!");
 };
 
 // Handle connection events
