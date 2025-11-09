@@ -15,7 +15,6 @@ export interface JWTPayload {
 
 // Generate refresh token (long-lived, typically 30 days)
 export const generateRefreshToken = (payload: JWTPayload): string => {
-
   const jwtKey = process.env.JWT_REFRESH_SECRET;
   const jwtExpire = process.env.JWT_REFRESH_EXPIRE || "30d";
 
@@ -27,12 +26,11 @@ export const generateRefreshToken = (payload: JWTPayload): string => {
   }
 
   // Sign and return the refresh token with user payload
-  return jwt.sign(payload, jwtKey, { expiresIn: jwtExpire });
+  return jwt.sign(payload, jwtKey, { expiresIn: jwtExpire } as jwt.SignOptions);
 };
 
 // Generate access token (short-lived, typically 7 days)
 export const generateAccessToken = (payload: JWTPayload): string => {
-
   const jwtKey = process.env.JWT_SECRET;
   const jwtExpire = process.env.JWT_EXPIRE || "7d";
 
@@ -42,7 +40,7 @@ export const generateAccessToken = (payload: JWTPayload): string => {
   }
 
   // Sign and return the access token with user payload
-  return jwt.sign(payload, jwtKey, { expiresIn: jwtExpire });
+  return jwt.sign(payload, jwtKey, { expiresIn: jwtExpire } as jwt.SignOptions);
 };
 
 // Verify access token and return decoded payload
@@ -95,7 +93,7 @@ export const generateResetToken = (userId: string): string => {
   }
 
   // Sign token with user ID as payload
-  return jwt.sign({ userId }, jwtKey, { expiresIn: jwtExpire });
+  return jwt.sign({ userId }, jwtKey, { expiresIn: jwtExpire } as jwt.SignOptions);
 };
 
 // Verify password reset token and return user ID

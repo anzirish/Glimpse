@@ -9,8 +9,8 @@ import {
   updateCartProduct,
   deleteCartItem,
   getCartProducts,
-} from "../../controllers/cartController.js";
-import { validateAuth } from "../../middleware/validateAuth.js";
+} from "../../controllers/cartController";
+import { validateAuth } from "../../middleware/validateAuth";
 
 const router = Router();
 

@@ -12,8 +12,8 @@ import {
   forgotPassword,
   resetPassword,
   changePassword,
-} from "../../controllers/authController.js";
-import { validateAuth } from "../../middleware/validateAuth.js";
+} from "../../controllers/authController";
+import { validateAuth } from "../../middleware/validateAuth";
 
 const router = Router();
 

@@ -4,9 +4,9 @@
  */
 
 import { Request, Response } from "express";
-import { asyncHandler } from "../utils/asyncHandler.js";
-import { errorResponse, successResponse } from "../utils/apiResponse.js";
-import { CartItem } from "../models/CartItem.js";
+import { asyncHandler } from "../utils/asyncHandler";
+import { errorResponse, successResponse } from "../utils/apiResponse";
+import { CartItem } from "../models/CartItem";
 
 // Add product to cart or increment quantity if already exists
 export const addItemToCart = asyncHandler(

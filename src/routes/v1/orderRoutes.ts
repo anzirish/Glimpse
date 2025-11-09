@@ -10,8 +10,8 @@ import {
   updateOrderAdmin,
   deleteOrder,
   getMyOrders,
-} from "../../controllers/orderController.js";
-import { validateAuth } from "../../middleware/validateAuth.js";
+} from "../../controllers/orderController";
+import { validateAuth } from "../../middleware/validateAuth";
 
 const router = Router();
 

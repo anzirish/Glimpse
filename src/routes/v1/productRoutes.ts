@@ -9,8 +9,8 @@ import {
   getProducts,
   updateProduct,
   deleteProduct,
-} from "../../controllers/productController.js";
-import { validateAuth } from "../../middleware/validateAuth.js";
+} from "../../controllers/productController";
+import { validateAuth } from "../../middleware/validateAuth";
 
 const router = Router();
 

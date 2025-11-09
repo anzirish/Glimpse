@@ -6,9 +6,9 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import v1Routes from "./routes/v1/index.js";
-import { errorHandler } from "./middleware/errorHandler.js";
-import { connectDB } from "./config/db.js";
+import v1Routes from "./routes/v1/index";
+import { errorHandler } from "./middleware/errorHandler";
+import { connectDB } from "./config/db";
 
 const app = express();
 

@@ -9,8 +9,8 @@ import {
   updateRating,
   getReviews,
   deleteReview,
-} from "../../controllers/reviewController.js";
-import { validateAuth } from "../../middleware/validateAuth.js";
+} from "../../controllers/reviewController";
+import { validateAuth } from "../../middleware/validateAuth";
 
 const router = Router();
 

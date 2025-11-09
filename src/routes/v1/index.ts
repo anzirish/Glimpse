@@ -4,11 +4,11 @@
  */
 
 import { Router } from "express";
-import authRoutes from "./authRoutes.js";
-import productRoutes from "./productRoutes.js";
-import cartRoutes from "./cartRoutes.js";
-import orderRoutes from "./orderRoutes.js";
-import reviewRoutes from "./reviewRoutes.js";
+import authRoutes from "./authRoutes";
+import productRoutes from "./productRoutes";
+import cartRoutes from "./cartRoutes";
+import orderRoutes from "./orderRoutes";
+import reviewRoutes from "./reviewRoutes";
 
 const router = Router();
 

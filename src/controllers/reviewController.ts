@@ -4,10 +4,10 @@
  */
 
 import { Request, Response } from "express";
-import { asyncHandler } from "../utils/asyncHandler.js";
-import { errorResponse, successResponse } from "../utils/apiResponse.js";
-import { Review } from "../models/Review.js";
-import { Order } from "../models/Order.js";
+import { asyncHandler } from "../utils/asyncHandler";
+import { errorResponse, successResponse } from "../utils/apiResponse";
+import { Review } from "../models/Review";
+import { Order } from "../models/Order";
 
 // Create review for purchased product (User only)
 export const createRating = asyncHandler(

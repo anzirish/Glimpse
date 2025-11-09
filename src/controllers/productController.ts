@@ -4,9 +4,9 @@
  */
 
 import { Request, Response } from "express";
-import { asyncHandler } from "../utils/asyncHandler.js";
-import { Product } from "../models/Product.js";
-import { errorResponse, successResponse } from "../utils/apiResponse.js";
+import { asyncHandler } from "../utils/asyncHandler";
+import { Product } from "../models/Product";
+import { errorResponse, successResponse } from "../utils/apiResponse";
 
 // Add new product to catalog (Admin only)
 export const addProduct = asyncHandler(async (req: Request, res: Response) => {

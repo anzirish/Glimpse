@@ -4,9 +4,9 @@
  */
 
 import { Request, Response } from "express";
-import { asyncHandler } from "../utils/asyncHandler.js";
-import { errorResponse, successResponse } from "../utils/apiResponse.js";
-import { Order } from "../models/Order.js";
+import { asyncHandler } from "../utils/asyncHandler";
+import { errorResponse, successResponse } from "../utils/apiResponse";
+import { Order } from "../models/Order";
 
 // Create new order
 export const createOrder = asyncHandler(async (req: Request, res: Response) => {
