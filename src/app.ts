@@ -9,6 +9,7 @@ import cors from "cors";
 import v1Routes from "./routes/v1/index";
 import { errorHandler } from "./middleware/errorHandler";
 import { connectDB } from "./config/db";
+import { connectRedis } from "./config/redis";
 import { apiLimiter } from "./middleware/rateLimiter";
 
 const app = express();
@@ -39,6 +40,9 @@ const startServer = async () => {
   try {
     // Connect to database
     await connectDB();
+
+    // Connect to Redis
+    await connectRedis();
 
     // Start listening
     app.listen(PORT, () => {
