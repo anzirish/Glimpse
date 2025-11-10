@@ -17,6 +17,21 @@ import rateLimit from "express-rate-limit";
 import { RedisStore } from "rate-limit-redis";
 import redisClient from "../config/redis";
 
+// Helper function to create Redis store only if client is ready
+const createRedisStore = (prefix: string) => {
+  try {
+    if (redisClient.isReady) {
+      return new RedisStore({
+        sendCommand: (...args: string[]) => redisClient.sendCommand(args),
+        prefix,
+      });
+    }
+  } catch (error) {
+    console.log(`Redis store not available for ${prefix}, using memory store`);
+  }
+  return undefined; // Falls back to memory store
+};
+
 // General API rate limiter - applies to all routes
 export const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes window
@@ -26,10 +41,7 @@ export const apiLimiter = rateLimit({
   legacyHeaders: false, // Don't send old X-RateLimit-* headers
   // Redis store: Saves request counts in Redis instead of server memory
   // Benefits: Survives restarts, works with multiple servers
-  store: new RedisStore({
-    sendCommand: (...args: string[]) => redisClient.sendCommand(args),
-    prefix: "rl:api:", // Redis key prefix to organize data
-  }),
+  store: createRedisStore("rl:api:"),
 });
 
 // Strict rate limiter for authentication routes (login)
@@ -42,10 +54,7 @@ export const authLimiter = rateLimit({
   legacyHeaders: false,
   skipSuccessfulRequests: true, // SMART: Only count failed logins, not successful ones
   // This means legitimate users won't get blocked, only attackers
-  store: new RedisStore({
-    sendCommand: (...args: string[]) => redisClient.sendCommand(args),
-    prefix: "rl:auth:", // Separate Redis keys for auth limits
-  }),
+  store: createRedisStore("rl:auth:"),
 });
 
 // Rate limiter for account creation
@@ -57,10 +66,7 @@ export const signupLimiter = rateLimit({
     "Too many accounts created from this IP, please try again after an hour",
   standardHeaders: true,
   legacyHeaders: false,
-  store: new RedisStore({
-    sendCommand: (...args: string[]) => redisClient.sendCommand(args),
-    prefix: "rl:signup:", // Separate Redis keys for signup limits
-  }),
+  store: createRedisStore("rl:signup:"),
 });
 
 // Rate limiter for password reset requests
@@ -71,8 +77,5 @@ export const passwordResetLimiter = rateLimit({
   message: "Too many password reset attempts, please try again after an hour",
   standardHeaders: true,
   legacyHeaders: false,
-  store: new RedisStore({
-    sendCommand: (...args: string[]) => redisClient.sendCommand(args),
-    prefix: "rl:password:", // Separate Redis keys for password reset limits
-  }),
+  store: createRedisStore("rl:password:"),
 });
