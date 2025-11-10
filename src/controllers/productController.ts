@@ -7,6 +7,12 @@ import { Request, Response } from "express";
 import { asyncHandler } from "../utils/asyncHandler";
 import { Product } from "../models/Product";
 import { errorResponse, successResponse } from "../utils/apiResponse";
+import {
+  getCache,
+  setCache,
+  deleteCachePattern,
+  CACHE_TTL,
+} from "../utils/cache";
 
 // Add new product to catalog (Admin only)
 export const addProduct = asyncHandler(async (req: Request, res: Response) => {
@@ -26,10 +32,14 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
   });
 
   await product.save();
+
+  // Invalidate product list cache when new product is added
+  await deleteCachePattern("products:*");
+
   return successResponse(res, product, "Product added successfully", 201);
 });
 
-// Get all products with optional search and filters
+// Get all products with optional search and filters (with caching)
 export const getProducts = asyncHandler(async (req: Request, res: Response) => {
   const {
     keyword,
@@ -41,6 +51,20 @@ export const getProducts = asyncHandler(async (req: Request, res: Response) => {
     page = "1",
     limit = "20",
   } = req.query;
+
+  // Create cache key based on query parameters
+  const cacheKey = `products:${JSON.stringify(req.query)}`;
+
+  // Try to get from cache first
+  const cachedData = await getCache(cacheKey);
+  if (cachedData) {
+    return successResponse(
+      res,
+      cachedData,
+      `${cachedData.products.length} products found (cached)`,
+      200
+    );
+  }
 
   // Build query with all filters
   const query: any = {};
@@ -75,7 +99,7 @@ export const getProducts = asyncHandler(async (req: Request, res: Response) => {
   const limitNum = parseInt(limit as string) || 20;
   const skip = (pageNum - 1) * limitNum;
 
-  // Fetch products
+  // Fetch products from database
   const products = await Product.find(query)
     .sort(sortBy as string)
     .limit(limitNum)
@@ -85,17 +109,22 @@ export const getProducts = asyncHandler(async (req: Request, res: Response) => {
   // Get total count
   const total = await Product.countDocuments(query);
 
+  const responseData = {
+    products,
+    pagination: {
+      total,
+      page: pageNum,
+      limit: limitNum,
+      totalPages: Math.ceil(total / limitNum),
+    },
+  };
+
+  // Cache the result for 5 minutes
+  await setCache(cacheKey, responseData, CACHE_TTL.MEDIUM);
+
   return successResponse(
     res,
-    {
-      products,
-      pagination: {
-        total,
-        page: pageNum,
-        limit: limitNum,
-        totalPages: Math.ceil(total / limitNum),
-      },
-    },
+    responseData,
     `${products.length} products found`,
     200
   );
@@ -122,6 +151,10 @@ export const updateProduct = asyncHandler(
     if (stock !== undefined) product.stock = stock;
 
     await product.save();
+
+    // Invalidate product list cache when product is updated
+    await deleteCachePattern("products:*");
+
     return successResponse(res, product, "Product updated successfully", 200);
   }
 );
@@ -136,6 +169,9 @@ export const deleteProduct = asyncHandler(
     // findByIdAndDelete returns deleted document or null (single query optimization)
     const product = await Product.findByIdAndDelete(productId);
     if (!product) return errorResponse(res, "Product not found", 404);
+
+    // Invalidate product list cache when product is deleted
+    await deleteCachePattern("products:*");
 
     return successResponse(res, product, "Product deleted successfully", 200);
   }
