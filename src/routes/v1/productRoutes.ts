@@ -11,6 +11,7 @@ import {
   deleteProduct,
 } from "../../controllers/productController";
 import { validateAuth } from "../../middleware/validateAuth";
+import { isAdmin } from "../../middleware/validateRole";
 
 const router = Router();
 
@@ -18,8 +19,8 @@ const router = Router();
 router.get("/", getProducts);
 
 // Protected routes (Admin only)
-router.post("/", validateAuth, addProduct);
-router.put("/:id", validateAuth, updateProduct);
-router.delete("/:id", validateAuth, deleteProduct);
+router.post("/", validateAuth, isAdmin, addProduct);
+router.put("/:id", validateAuth, isAdmin, updateProduct);
+router.delete("/:id", validateAuth, isAdmin, deleteProduct);
 
 export default router;

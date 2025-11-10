@@ -12,6 +12,7 @@ import {
   getMyOrders,
 } from "../../controllers/orderController";
 import { validateAuth } from "../../middleware/validateAuth";
+import { isAdmin } from "../../middleware/validateRole";
 
 const router = Router();
 
@@ -22,6 +23,6 @@ router.put("/:id", validateAuth, updateOrder);
 router.delete("/:id", validateAuth, deleteOrder);
 
 // Admin route
-router.put("/admin/:id", validateAuth, updateOrderAdmin);
+router.put("/admin/:id", validateAuth, isAdmin, updateOrderAdmin);
 
 export default router;
