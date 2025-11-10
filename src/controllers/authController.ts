@@ -81,8 +81,8 @@ export const signup = asyncHandler(async (req: Request, res: Response) => {
 export const login = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  // Find user by email
-  const user = await User.findOne({ email });
+  // Find user by email and include password field
+  const user = await User.findOne({ email }).select("+password");
   if (!user) {
     return errorResponse(res, "User is not registered", 401);
   }
