@@ -9,6 +9,7 @@ import cors from "cors";
 import v1Routes from "./routes/v1/index";
 import { errorHandler } from "./middleware/errorHandler";
 import { connectDB } from "./config/db";
+import { apiLimiter } from "./middleware/rateLimiter";
 
 const app = express();
 
@@ -16,6 +17,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Apply rate limiting to all API routes
+app.use("/api", apiLimiter);
 
 // API Routes
 app.use("/api/v1", v1Routes);
