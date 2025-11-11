@@ -1,18 +1,34 @@
-# 🛍️ Glimpse - E-commerce Backend API
+<div align="center">
+
+# 🛍️ Glimpse E-commerce Backend
+
+### A robust and scalable e-commerce API built with modern technologies
+
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-glimpse--backend-4A90E2?style=for-the-badge)](https://glimpse-backend-9gln.onrender.com/health)
+[![Status](https://img.shields.io/badge/Status-Live-00C853?style=for-the-badge)](https://glimpse-backend-9gln.onrender.com/health)
+
+</div>
 
 <div align="center">
 
-![Status](https://img.shields.io/badge/Status-Production%20Ready-success?style=for-the-badge)
-![Backend](https://img.shields.io/badge/Backend-Node.js%20%2B%20Express%20%2B%20TypeScript-339933?style=for-the-badge&logo=node.js&logoColor=white)
-![Database](https://img.shields.io/badge/Database-MongoDB%20%2B%20Mongoose-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-![Cache](https://img.shields.io/badge/Cache-Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
-![Deployed](https://img.shields.io/badge/Deployed-Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)
+### 🛠️ Built With
+
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white)
 
 </div>
 
 ---
 
-A robust and scalable e-commerce backend API built with modern technologies for high performance and reliability.
+## 🌟 Live API
+
+**Base URL:** `https://glimpse-backend-9gln.onrender.com`
+
+**Health Check:** [https://glimpse-backend-9gln.onrender.com/health](https://glimpse-backend-9gln.onrender.com/health)
 
 ## ✨ Features
 
@@ -27,15 +43,25 @@ A robust and scalable e-commerce backend API built with modern technologies for 
 
 ## 🚀 Tech Stack
 
-| Category           | Technologies                          |
-| ------------------ | ------------------------------------- |
-| **Runtime**        | Node.js + TypeScript                  |
-| **Framework**      | Express.js                            |
-| **Database**       | MongoDB + Mongoose ODM                |
-| **Cache**          | Redis                                 |
-| **Authentication** | JWT (jsonwebtoken)                    |
-| **Security**       | Helmet, bcryptjs, CORS, Rate Limiting |
-| **Email**          | Nodemailer                            |
+<table>
+<tr>
+<td align="center" width="33%">
+<h3>⚙️ Backend</h3>
+<p>Node.js + TypeScript</p>
+<p>Express.js Framework</p>
+</td>
+<td align="center" width="33%">
+<h3>💾 Database</h3>
+<p>MongoDB + Mongoose</p>
+<p>Redis Cache</p>
+</td>
+<td align="center" width="33%">
+<h3>🔐 Security</h3>
+<p>JWT Authentication</p>
+<p>Rate Limiting + Helmet</p>
+</td>
+</tr>
+</table>
 
 ## 🏁 Getting Started
 
@@ -92,7 +118,7 @@ npm start
 
 ## 📡 API Endpoints
 
-**Base URL**: `/api/v1`
+**Base URL**: `https://glimpse-backend-9gln.onrender.com/api/v1`
 
 ### 🔐 Authentication
 
@@ -186,8 +212,11 @@ src/
 
 <div align="center">
 
-Made with ❤️ for E-commerce
+### 💡 Made with ❤️ for E-commerce
 
-![License](https://img.shields.io/badge/License-ISC-blue?style=for-the-badge)
+[![License](https://img.shields.io/badge/License-ISC-blue?style=flat-square)](LICENSE)
+[![Deployed on Render](https://img.shields.io/badge/Deployed%20on-Render-46E3B7?style=flat-square&logo=render&logoColor=white)](https://glimpse-backend-9gln.onrender.com)
+
+**[API Documentation](https://glimpse-backend-9gln.onrender.com/health)** • **[Report Bug](https://github.com/anzirish/Glimpse/issues)** • **[Request Feature](https://github.com/anzirish/Glimpse/issues)**
 
 </div>
