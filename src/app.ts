@@ -9,7 +9,7 @@ import cors from "cors";
 import v1Routes from "./routes/v1/index";
 import { errorHandler } from "./middleware/errorHandler";
 import { connectDB } from "./config/db";
-import { connectRedis } from "./config/redis";
+import { apiLimiter } from "./middleware/rateLimiter";
 
 const app = express();
 
@@ -18,14 +18,8 @@ const PORT = process.env.PORT || 3000;
 
 const startServer = async () => {
   try {
-    // Connect to Redis first (before rate limiter setup)
-    await connectRedis();
-
     // Connect to database
     await connectDB();
-
-    // Now import and setup rate limiter after Redis is connected
-    const { apiLimiter } = await import("./middleware/rateLimiter");
 
     // Middleware
     app.use(cors());

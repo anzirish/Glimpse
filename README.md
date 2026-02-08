@@ -17,7 +17,6 @@
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
-![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white)
 
 </div>
@@ -34,11 +33,11 @@
 
 - 🔐 **Authentication & Authorization**: JWT-based authentication with refresh tokens
 - 📦 **Product Management**: CRUD operations for products with search and filtering
-- 🛒 **Shopping Cart**: Persistent cart management with Redis caching
+- 🛒 **Shopping Cart**: Persistent cart management
 - 📋 **Order Processing**: Complete order lifecycle management
 - ⭐ **Review System**: Product reviews and ratings
-- 🛡️ **Rate Limiting**: Redis-backed rate limiting for API protection
-- ⚡ **Caching**: Redis caching for improved performance
+- 🛡️ **Rate Limiting**: In-memory rate limiting for API protection
+- ⚡ **Caching**: In-memory caching for improved performance
 - 📧 **Email Notifications**: Nodemailer integration for transactional emails
 
 ## 🚀 Tech Stack
@@ -53,7 +52,7 @@
 <td align="center" width="33%">
 <h3>💾 Database</h3>
 <p>MongoDB + Mongoose</p>
-<p>Redis Cache</p>
+<p>In-Memory Cache</p>
 </td>
 <td align="center" width="33%">
 <h3>🔐 Security</h3>
@@ -69,7 +68,6 @@
 
 - Node.js (v16 or higher)
 - MongoDB
-- Redis
 
 ### 📥 Installation
 
@@ -96,7 +94,6 @@ Edit `.env` with your configuration:
 
 - Database connection strings
 - JWT secrets
-- Redis URL
 - Email credentials
 - Admin secret
 
@@ -165,7 +162,6 @@ This application is deployed on [Render](https://render.com).
 Make sure to set all required environment variables in your Render dashboard:
 
 - `MONGODB_URI_PROD` - Production MongoDB connection string
-- `REDIS_URL` - Redis connection URL
 - `JWT_SECRET`, `JWT_REFRESH_SECRET`, `JWT_RESET_SECRET`
 - `EMAIL_USER`, `EMAIL_PASS`
 - `ADMIN_SECRET`
@@ -188,7 +184,7 @@ npm start
 
 ```
 src/
-├── config/         # Configuration files (DB, Redis)
+├── config/         # Configuration files (DB)
 ├── controllers/    # Route controllers
 ├── middleware/     # Custom middleware (auth, rate limiting, error handling)
 ├── models/         # Mongoose models
@@ -203,7 +199,7 @@ src/
 
 - 🛡️ Helmet for security headers
 - 🌐 CORS configuration
-- ⏱️ Rate limiting with Redis
+- ⏱️ Rate limiting with in-memory store
 - 🔑 JWT token authentication
 - 🔐 Password hashing with bcryptjs
 - ✅ Input validation and sanitization

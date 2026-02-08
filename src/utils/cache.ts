@@ -1,29 +1,54 @@
 /**
- * Redis Caching Utility for Glimpse E-commerce Application
- * Handles caching operations to reduce database load and improve performance
+ * In-Memory Caching Utility for Glimpse E-commerce Application
+ * Simple in-memory cache as Redis replacement
  */
 
-import redisClient from "../config/redis";
+// Simple in-memory cache store
+interface CacheEntry {
+  data: any;
+  expiresAt: number;
+}
+
+const cacheStore = new Map<string, CacheEntry>();
+
+// Clean up expired entries periodically
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, entry] of cacheStore.entries()) {
+    if (entry.expiresAt < now) {
+      cacheStore.delete(key);
+    }
+  }
+}, 60000); // Clean every minute
 
 // Get data from cache
 export const getCache = async (key: string): Promise<any> => {
   try {
-    const data = await redisClient.get(key);
-    return data ? JSON.parse(data) : null;
+    const entry = cacheStore.get(key);
+    if (!entry) return null;
+    
+    // Check if expired
+    if (entry.expiresAt < Date.now()) {
+      cacheStore.delete(key);
+      return null;
+    }
+    
+    return entry.data;
   } catch (error) {
     console.error("Cache get error:", error);
     return null;
   }
 };
 
-// Set data in cache with expiration time
+// Set data in cache with expiration time (in seconds)
 export const setCache = async (
   key: string,
   data: any,
   ttl: number = 300
 ): Promise<void> => {
   try {
-    await redisClient.setEx(key, ttl, JSON.stringify(data));
+    const expiresAt = Date.now() + (ttl * 1000);
+    cacheStore.set(key, { data, expiresAt });
   } catch (error) {
     console.error("Cache set error:", error);
   }
@@ -32,7 +57,7 @@ export const setCache = async (
 // Delete single cache entry
 export const deleteCache = async (key: string): Promise<void> => {
   try {
-    await redisClient.del(key);
+    cacheStore.delete(key);
   } catch (error) {
     console.error("Cache delete error:", error);
   }
@@ -41,9 +66,14 @@ export const deleteCache = async (key: string): Promise<void> => {
 // Delete multiple cache keys by pattern
 export const deleteCachePattern = async (pattern: string): Promise<void> => {
   try {
-    const keys = await redisClient.keys(pattern);
-    if (keys.length > 0) {
-      await redisClient.del(keys);
+    // Convert Redis pattern to regex
+    const regexPattern = pattern.replace(/\*/g, ".*");
+    const regex = new RegExp(`^${regexPattern}$`);
+    
+    for (const key of cacheStore.keys()) {
+      if (regex.test(key)) {
+        cacheStore.delete(key);
+      }
     }
   } catch (error) {
     console.error("Cache pattern delete error:", error);
