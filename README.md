@@ -119,7 +119,7 @@ npm start
 
 ### 🔐 Authentication
 
-- `POST /auth/register` - Register new user
+- `POST /auth/signup` - Register new user
 - `POST /auth/login` - User login
 - `POST /auth/refresh` - Refresh access token
 - `POST /auth/logout` - User logout
